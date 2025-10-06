@@ -71,6 +71,13 @@ def norm_reqexp(v: str):
     if "many" in s or "several" in s: return "many contributions"
     return v
 
+def norm_typedev(v: str):
+    s = str(v).strip().lower()
+    if s.startswith("core"):     return "core"
+    if s.startswith("extern"):   return "external"
+    return s or "(blank)"
+
+
 # Mapa de antecedentes conhecidos → (função de normalização, ordem de valores)
 ANT_CONFIG = {
     "total_lines_D":                (norm_lines,    ["1 line", "some lines", "many lines"]),
@@ -79,7 +86,7 @@ ANT_CONFIG = {
     "first_Pull":                   (norm_bool,     ["True", "False"]),
     "coreTeamFollowsRequester":     (norm_bool,     ["True", "False"]),
     "followers_boolean":            (norm_followers,["no followers", "has followers"]),
-    "typeDeveloper":                (str,           ["external", "core"]),
+    "typeDeveloper":                (norm_typedev, ["external", "core"]),
     "requester_experience_project": (norm_reqexp,   ["no contribution", "some contributions", "many contributions"]),
     # Se tiver outros, adicione aqui…
 }
